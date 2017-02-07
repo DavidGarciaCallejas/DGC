@@ -1,0 +1,14 @@
+Package: DGC
+Version: 0.1
+Date: 2014-08-27
+Title: David Garcia-Callejas' functions
+Description: General purpose functions as well as specific ones from IPM and
+    network models.
+Imports:
+    gambin
+Author: David García Callejas <david.garcia.callejas@gmail.com>
+Maintainer: David García Callejas <david.garcia.callejas@gmail.com>
+License: GPL-3
+RoxygenNote: 6.0.0
+Encoding: UTF-8
+LazyData: true
