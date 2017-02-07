@@ -38,7 +38,7 @@ assign.tl.category <- function(tl.a,tl.b){
 #' @examples  tl.results <- AssignTrophicLevel(num.sp = 20,
 #'                                  trophic.levels = 4,
 #'                                  abundance.distribution = "gambin",
-#'                                  scaling.law.tl = T,
+#'                                  scaling.law.tl = TRUE,
 #'                                  scaling.exponent.tl = 0.75,
 #'                                  basal.abundance = 1000,
 #'                                  gambin.alpha = 2,
@@ -83,7 +83,7 @@ PotentialLinks <- function(tl.results, within.type.prob, return.type = "position
     interaction.type <- c("competition","amensalism","antagonism","mutualism","commensalism")
     potential.links <- merge(potential.links,within.type.prob,by.x = c("tl.category","type"),by.y = c("tl.category","interaction.type"),all = T)
     potential.links <- potential.links[,c("sp.a","sp.b","tl.category","type","prob","tl.sp.a","tl.sp.b")]
-    potential.links <- arrange(potential.links,sp.a,sp.b)
+    potential.links <- dplyr::arrange(potential.links,sp.a,sp.b)
     names(potential.links)[5] <- "within.type.prob"
     
     potential.links <- potential.links[complete.cases(potential.links),]

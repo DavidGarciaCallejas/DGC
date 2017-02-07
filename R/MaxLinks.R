@@ -13,7 +13,7 @@
 #' @examples tl.results <- AssignTrophicLevel(num.sp = 20,
 #'                                  trophic.levels = 4,
 #'                                  abundance.distribution = "gambin",
-#'                                  scaling.law.tl = T,
+#'                                  scaling.law.tl = TRUE,
 #'                                  scaling.exponent.tl = 0.75,
 #'                                  basal.abundance = 1000,
 #'                                  gambin.alpha = 2,
