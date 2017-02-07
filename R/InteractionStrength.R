@@ -18,7 +18,7 @@
 #' @export
 #'
 #' @examples InteractionStrength(n1 = 10,n2 = 100,
-#' sign.matrix = matrix(matrix(data = c(0,-1,1,0),nrow = 2)),sp1 = 1,sp2 = 2,scale.factor = rep(0.1,5))
+#' sign.matrix = matrix(data = c(0,-1,1,0),nrow = 2),sp1 = 1,sp2 = 2,scale.factor = rep(0.1,5))
 InteractionStrength <- function(n1,n2,sign.matrix,sp1,sp2,scale.factor){
   
   per.capita.strength <- 0
@@ -80,4 +80,3 @@ InteractionStrength <- function(n1,n2,sign.matrix,sp1,sp2,scale.factor){
   return(per.capita.strength)
   
 }
-
