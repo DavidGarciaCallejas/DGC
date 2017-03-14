@@ -6,7 +6,7 @@
 #' in which case no interaction probabilities are used
 #' @param interaction.probs dataframe with 5 rows: competition, amensalism, antagonism, mutualism, commensalism
 #' and a column "prob" with the percentage for each interaction
-#' @param WithinTypeProb data frame with columns 'interaction type', 'tl.category' and 'prob'
+#' @param within.type.prob data frame with columns 'interaction type', 'tl.category' and 'prob'
 #' where interaction type is 'amensalism','antagonism', 'commensalism, 'competition' or 'mutualism';
 #' tl.category is 'same', 'adjacent', or 'other'. An example is included in the package.
 #' and prob is the probability of occurrence of each combination of interaction and trophic levels of the species involved.
@@ -29,8 +29,8 @@ GenerateSignMatrix <- function(tl.results, connectance = NULL, interaction.probs
   # the connectance of each subnetwork, etc.
   
   # pool of potentially feasible links from which to sample
-  if(missing(WithinTypeProb)){
-    stop("*** function GenerateSignMatrix: please specify WithinTypeProb argument")
+  if(missing(within.type.prob)){
+    stop("*** function GenerateSignMatrix: please specify within.type.prob argument")
   }else{
     potential.links <- PotentialLinks(tl.results, within.type.prob = within.type.prob, return.type = "positions")
   }
@@ -113,18 +113,18 @@ GenerateSignMatrix <- function(tl.results, connectance = NULL, interaction.probs
         # select a specific link
         
         # the selection of a specific link of the desired type is not random,
-        # rather it is selected according to the probabilities defined in the WithinTypeProb dataframe
+        # rather it is selected according to the probabilities defined in the within.type.prob dataframe
         # that specify the probability that a certain interaction will involve the same, adjacent or other 
         # trophic levels
         
         # hence, first, select the trophic levels involved
         
-        my.tl.involved <- GenerateProbNumbers(times = 1,my.data = WithinTypeProb[WithinTypeProb$interaction.type == my.interaction.type,])
+        my.tl.involved <- GenerateProbNumbers(times = 1,my.data = within.type.prob[within.type.prob$interaction.type == my.interaction.type,])
         my.tl.involved <- switch(my.tl.involved, "1"="same", "2"="adjacent","3"="other")
         
         # make sure that there are links available of that trophic level arrangement. Otherwise, choose another
         while(sum(potential.links$tl.category == my.tl.involved & potential.links$type == my.interaction.type) == 0){
-          my.tl.involved <- GenerateProbNumbers(times = 1,my.data = WithinTypeProb[WithinTypeProb$interaction.type == my.interaction.type,])
+          my.tl.involved <- GenerateProbNumbers(times = 1,my.data = within.type.prob[within.type.prob$interaction.type == my.interaction.type,])
           my.tl.involved <- switch(my.tl.involved, "1"="same", "2"="adjacent","3"="other")
         }
         
@@ -133,7 +133,7 @@ GenerateSignMatrix <- function(tl.results, connectance = NULL, interaction.probs
         
         my.link <- potential.links[resample(which(potential.links$type == my.interaction.type & potential.links$tl.category == my.tl.involved),size = 1),]
         
-        # this is equivalent to the following two lines, because in "potential.links" the column "WithinTypeProb"
+        # this is equivalent to the following two lines, because in "potential.links" the column "within.type.prob"
         # already yields the probability of that interaction to be selected, given a certain type
         
         # names(potential.links)[5] <- "prob"
@@ -202,18 +202,18 @@ GenerateSignMatrix <- function(tl.results, connectance = NULL, interaction.probs
       # for selecting the specific link, I do use the probabilities associated for the different trophic levels
       
       # the selection of a specific link of the desired type is not random,
-      # rather it is selected according to the probabilities defined in the WithinTypeProb dataframe
+      # rather it is selected according to the probabilities defined in the within.type.prob dataframe
       # that specify the probability that a certain interaction will involve the same, adjacent or other 
       # trophic levels
       
       # hence, first, select the trophic levels involved
       
-      my.tl.involved <- GenerateProbNumbers(times = 1,my.data = WithinTypeProb[WithinTypeProb$interaction.type == my.interaction.type,])
+      my.tl.involved <- GenerateProbNumbers(times = 1,my.data = within.type.prob[within.type.prob$interaction.type == my.interaction.type,])
       my.tl.involved <- switch(my.tl.involved, "1"="same", "2"="adjacent","3"="other")
       
       # make sure that there are links available of that trophic level arrangement. Otherwise, choose another
       while(sum(potential.links$tl.category == my.tl.involved & potential.links$type == my.interaction.type) == 0){
-        my.tl.involved <- GenerateProbNumbers(times = 1,my.data = WithinTypeProb[WithinTypeProb$interaction.type == my.interaction.type,])
+        my.tl.involved <- GenerateProbNumbers(times = 1,my.data = within.type.prob[within.type.prob$interaction.type == my.interaction.type,])
         my.tl.involved <- switch(my.tl.involved, "1"="same", "2"="adjacent","3"="other")
       }
       
