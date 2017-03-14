@@ -5,7 +5,7 @@
 \title{Generate sign matrix}
 \usage{
 GenerateSignMatrix(tl.results, connectance = NULL, interaction.probs = NULL,
-  WithinTypeProb, verbose = F)
+  within.type.prob, verbose = F)
 }
 \arguments{
 \item{tl.results}{community dataframe from \code{\link{AssignTrophicLevel}}}
@@ -17,12 +17,12 @@ in which case no interaction probabilities are used}
 \item{interaction.probs}{dataframe with 5 rows: competition, amensalism, antagonism, mutualism, commensalism
 and a column "prob" with the percentage for each interaction}
 
+\item{verbose}{detailed output}
+
 \item{WithinTypeProb}{data frame with columns 'interaction type', 'tl.category' and 'prob'
 where interaction type is 'amensalism','antagonism', 'commensalism, 'competition' or 'mutualism';
 tl.category is 'same', 'adjacent', or 'other'. An example is included in the package.
 and prob is the probability of occurrence of each combination of interaction and trophic levels of the species involved.}
-
-\item{verbose}{detailed output}
 }
 \value{
 Integer matrix of size NxN

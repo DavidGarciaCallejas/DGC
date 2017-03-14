@@ -1,6 +1,5 @@
-
 #' Get the size of a community in each cell of a grid
-#' 
+#'
 #' By community size I mean here the net size of all individuals
 #' regardless of their species identity. 
 #' For example, five individuals of five different species and size "1" each
@@ -11,7 +10,8 @@
 #' @param plant.population nested list with the plant population of each cell. See model.R
 #'
 #' @return vector of size equal to the number of cells, with the size of the community at each cell
-
+#' @export
+#'
 GetCommunitySize <- function(spatial.grid,plant.population){
   community.size <- integer(nrow(spatial.grid))
   

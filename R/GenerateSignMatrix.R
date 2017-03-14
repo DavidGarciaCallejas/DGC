@@ -15,7 +15,7 @@
 #' @return Integer matrix of size NxN 
 #' @export
 #'
-GenerateSignMatrix <- function(tl.results, connectance = NULL, interaction.probs = NULL, WithinTypeProb, verbose = F){
+GenerateSignMatrix <- function(tl.results, connectance = NULL, interaction.probs = NULL, within.type.prob, verbose = F){
   
   thesaurus <- data.frame(index = 1:5, type = c("competition","amensalism","antagonism","mutualism","commensalism"))
   
@@ -32,7 +32,7 @@ GenerateSignMatrix <- function(tl.results, connectance = NULL, interaction.probs
   if(missing(WithinTypeProb)){
     stop("*** function GenerateSignMatrix: please specify WithinTypeProb argument")
   }else{
-    potential.links <- PotentialLinks(tl.results, WithinTypeProb = WithinTypeProb, return.type = "positions")
+    potential.links <- PotentialLinks(tl.results, within.type.prob = within.type.prob, return.type = "positions")
   }
   # maximum number of realized links per interaction type
   max.links <- MaxLinks(tl.results = tl.results,potential.links = potential.links)
