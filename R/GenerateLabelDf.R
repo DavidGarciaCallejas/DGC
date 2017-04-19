@@ -18,7 +18,7 @@ GenerateLabelDf <- function(my.data,HSD, flev, vspace = 0.5){
   
   # Get highest quantile for Tukey's 5 number summary and add a bit of space to buffer between    
   # upper quantile and label placement
-  boxplot.df <- plyr::ddply(my.data, flev, function (x) max(fivenum(x$gambin.alpha)) + vspace)
+  boxplot.df <- plyr::ddply(my.data, flev, function (x) max(fivenum(x$log.gambin.alpha)) + vspace)
   
   # Create a data frame out of the factor levels and Tukey's homogenous group letters
   plot.levels <- data.frame(plot.labels, labels = Tukey.labels[['Letters']],
