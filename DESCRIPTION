@@ -9,6 +9,6 @@ Imports:
 Author: David García Callejas <david.garcia.callejas@gmail.com>
 Maintainer: David García Callejas <david.garcia.callejas@gmail.com>
 License: GPL-3
-RoxygenNote: 6.0.0
+RoxygenNote: 6.0.1
 Encoding: UTF-8
 LazyData: true
