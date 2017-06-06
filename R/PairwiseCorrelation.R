@@ -2,42 +2,34 @@
 #' Computes the correlation of a pairwise interaction strength matrix or dataframe
 #' following the formulation of Tang et al. (2014)
 #'
-#' @param interaction.matrix NxN matrix or dataframe with rows for each pairwise effect
-#' If in dataframe format, columns should refer to the affected species (rows of the matrix)
-#' followed by the coupled species (columns of the matrix)
-#' and interaction strength value
+#' @param interaction.matrix NxN matrix with interaction effects of columns on rows
 #'
 #' @return correlation value
 #' @export
 #'
 #' @examples 
 #' interaction.matrix <- matrix(c(1,2,3,1,1,1,0.4,-2,-5),nrow = 3)
-#' interaction.data <- as.data.frame.table(interaction.matrix)
-#' names(interaction.data) <- c("coupled.sp","affected.sp","impact")
-#' interaction.data <- interaction.data[,c("affected.sp","coupled.sp","impact")]
 #' PairwiseCorrelation(interaction.matrix)
-#' PairwiseCorrelation(interaction.data)
-
 
 PairwiseCorrelation <- function(interaction.matrix){
   
-  if(is.data.frame(interaction.matrix)){
-    if(is.factor(interaction.matrix[,1])){
-      if(is.numeric(levels(interaction.matrix[,1]))){
-        interaction.matrix[,1] <-as.numeric(interaction.matrix[,1])
-      }else if(is.character(levels(interaction.matrix[,1]))){
-        interaction.matrix[,1] <-as.character(interaction.matrix[,1])
-      }
-    }
-    if(is.factor(interaction.matrix[,2])){
-      if(is.numeric(levels(interaction.matrix[,2]))){
-        interaction.matrix[,2] <-as.numeric(interaction.matrix[,2])
-      }else if(is.character(levels(interaction.matrix[,2]))){
-        interaction.matrix[,2] <-as.character(interaction.matrix[,2])
-      }
-    }
-    interaction.matrix <- as.matrix(tidyr::spread_(interaction.matrix,names(interaction.matrix)[2],names(interaction.matrix)[3])[,-1])
-  }
+  # if(is.data.frame(interaction.matrix)){
+  #   if(is.factor(interaction.matrix[,1])){
+  #     if(is.numeric(levels(interaction.matrix[,1]))){
+  #       interaction.matrix[,1] <-as.numeric(interaction.matrix[,1])
+  #     }else if(is.character(levels(interaction.matrix[,1]))){
+  #       interaction.matrix[,1] <-as.character(interaction.matrix[,1])
+  #     }
+  #   }
+  #   if(is.factor(interaction.matrix[,2])){
+  #     if(is.numeric(levels(interaction.matrix[,2]))){
+  #       interaction.matrix[,2] <-as.numeric(interaction.matrix[,2])
+  #     }else if(is.character(levels(interaction.matrix[,2]))){
+  #       interaction.matrix[,2] <-as.character(interaction.matrix[,2])
+  #     }
+  #   }
+  #   interaction.matrix <- as.matrix(tidyr::spread_(interaction.matrix,names(interaction.matrix)[2],names(interaction.matrix)[3])[,-1])
+  # }
   
   #mean of the products of the pairs c_ij, c_ji 
   mean.product <- 0
