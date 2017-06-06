@@ -36,7 +36,7 @@ PairwiseCorrelation <- function(interaction.matrix){
         interaction.matrix[,2] <-as.character(interaction.matrix[,2])
       }
     }
-    interaction.matrix <- as.matrix(spread_(interaction.matrix,names(interaction.matrix)[2],names(interaction.matrix)[3])[,-1])
+    interaction.matrix <- as.matrix(tidyr::spread_(interaction.matrix,names(interaction.matrix)[2],names(interaction.matrix)[3])[,-1])
   }
   
   #mean of the products of the pairs c_ij, c_ji 
