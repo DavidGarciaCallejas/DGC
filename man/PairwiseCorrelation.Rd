@@ -8,10 +8,7 @@ following the formulation of Tang et al. (2014)}
 PairwiseCorrelation(interaction.matrix)
 }
 \arguments{
-\item{interaction.matrix}{NxN matrix or dataframe with rows for each pairwise effect
-If in dataframe format, columns should refer to the affected species (rows of the matrix)
-followed by the coupled species (columns of the matrix)
-and interaction strength value}
+\item{interaction.matrix}{NxN matrix with interaction effects of columns on rows}
 }
 \value{
 correlation value
@@ -22,9 +19,5 @@ following the formulation of Tang et al. (2014)
 }
 \examples{
 interaction.matrix <- matrix(c(1,2,3,1,1,1,0.4,-2,-5),nrow = 3)
-interaction.data <- as.data.frame.table(interaction.matrix)
-names(interaction.data) <- c("coupled.sp","affected.sp","impact")
-interaction.data <- interaction.data[,c("affected.sp","coupled.sp","impact")]
 PairwiseCorrelation(interaction.matrix)
-PairwiseCorrelation(interaction.data)
 }
