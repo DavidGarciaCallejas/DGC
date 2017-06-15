@@ -72,35 +72,35 @@ GetInteractionsProb <- function(antagonistic = "niche", other.int = "random"){
   }else if(other.int == "empirical"){
     ### competition
     # same trophic level
-    interaction.probs$prob[interaction.probs$interaction.type == "competition" & interaction.probs$tl.category == "same"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "competition" & interaction.probs$tl.category == "same"] <- 0.979
     # adjacent trophic levels
-    interaction.probs$prob[interaction.probs$interaction.type == "competition" & interaction.probs$tl.category == "adjacent"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "competition" & interaction.probs$tl.category == "adjacent"] <- 0.021
     # other trophic levels
-    interaction.probs$prob[interaction.probs$interaction.type == "competition" & interaction.probs$tl.category == "other"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "competition" & interaction.probs$tl.category == "other"] <- 0
     
     ### amensalism
     # same trophic level
-    interaction.probs$prob[interaction.probs$interaction.type == "amensalism" & interaction.probs$tl.category == "same"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "amensalism" & interaction.probs$tl.category == "same"] <- 1
     # adjacent trophic levels
-    interaction.probs$prob[interaction.probs$interaction.type == "amensalism" & interaction.probs$tl.category == "adjacent"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "amensalism" & interaction.probs$tl.category == "adjacent"] <- 0
     # other trophic levels
-    interaction.probs$prob[interaction.probs$interaction.type == "amensalism" & interaction.probs$tl.category == "other"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "amensalism" & interaction.probs$tl.category == "other"] <- 0
     
     ### mutualism
     # same trophic level
-    interaction.probs$prob[interaction.probs$interaction.type == "mutualism" & interaction.probs$tl.category == "same"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "mutualism" & interaction.probs$tl.category == "same"] <- 0.048
     # adjacent trophic levels
-    interaction.probs$prob[interaction.probs$interaction.type == "mutualism" & interaction.probs$tl.category == "adjacent"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "mutualism" & interaction.probs$tl.category == "adjacent"] <- 0.854
     # other trophic levels
-    interaction.probs$prob[interaction.probs$interaction.type == "mutualism" & interaction.probs$tl.category == "other"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "mutualism" & interaction.probs$tl.category == "other"] <- 0.098
     
     ### commensalism
     # same trophic level
-    interaction.probs$prob[interaction.probs$interaction.type == "commensalism" & interaction.probs$tl.category == "same"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "commensalism" & interaction.probs$tl.category == "same"] <- 0.661
     # adjacent trophic levels
-    interaction.probs$prob[interaction.probs$interaction.type == "commensalism" & interaction.probs$tl.category == "adjacent"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "commensalism" & interaction.probs$tl.category == "adjacent"] <- 0.292
     # other trophic levels
-    interaction.probs$prob[interaction.probs$interaction.type == "commensalism" & interaction.probs$tl.category == "other"] <- 0.333
+    interaction.probs$prob[interaction.probs$interaction.type == "commensalism" & interaction.probs$tl.category == "other"] <- 0.047
   }# if-else other interactions
   
   interaction.probs
