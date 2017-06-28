@@ -10,6 +10,8 @@
 #' e.g. a scaling of 1 indicates that the maximum effect
 #' of one sp. over another is of the same order of magnitude
 #' than the population growth rate. Same order as a.param
+#' @param metric which metric is returned? either "impact" (the net impact), 
+#' "community" (jacobian/community matrix) or "both"
 #' @param return.type either matrix or dataframe
 #' @param my.model dynamic equations model for calculating the jacobian
 #' @param param.list list of parameters for the dynamic model
@@ -87,6 +89,10 @@ ImpactMatrix <- function(abundance.data,
     
     }else{ # community matrix coefs.
     
+      if(is.null(my.model)){
+        stop("ImpactMatrix: provide an appropriate dynamic model for calculating community matrix")
+      }
+      
     # for this, I need to run the model and get the jacobian/community matrix
     dynamics <- ode(y = abundance.data, times = c(0:1) ,func = mymodel, parms = param.list, method = "rk4")
     dynamics[is.na(dynamics)] <- 0
