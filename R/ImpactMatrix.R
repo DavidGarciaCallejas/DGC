@@ -28,81 +28,77 @@ ImpactMatrix <- function(abundance.data,
                          metric = "impact",
                          return.type = "dataframe", my.model = NULL, param.list = NULL){
   
-  # the function can return impact coefficients, i.e IF(i,j)*IS(i,j) or the coefficients of the community matrix
-  # for now, it returns both types
-  # it can return them in matrix form or in dataframe form
-  
-  if(metric == "impact" | metric == "both"){
-  
   # check if abundances > 0
   if(sum(abundance.data)>0 & !(is.null(nrow(sign.matrix)) | is.null(ncol(sign.matrix)))){ 
     
-    impact.matrix <- matrix(data = 0,nrow = length(abundance.data),ncol = length(abundance.data))
-    total.abund <- sum(abundance.data)
-    
-    for(i.row in 1:length(abundance.data)){
-      for(i.col in 1:length(abundance.data)){
-        if(abundance.data[i.row] != 0 & abundance.data[i.col] != 0){
-          
-          int.type <- sign.matrix[i.row,i.col]
-          
-          if(int.type != 0){
+    if(metric == "impact" | metric == "both"){
+      
+      impact.matrix <- matrix(data = 0,nrow = length(abundance.data),ncol = length(abundance.data))
+      total.abund <- sum(abundance.data)
+      
+      for(i.row in 1:length(abundance.data)){
+        for(i.col in 1:length(abundance.data)){
+          if(abundance.data[i.row] != 0 & abundance.data[i.col] != 0){
             
-            if(int.type == 1){
-              if(sign.matrix[i.col,i.row] == 1){
-                # positive effect over i.row from a mutualism
-                a = a.param[4]
-              }else if(sign.matrix[i.col,i.row] == 0){
-                # positive effectr over i.row from a commensalism
-                a = a.param[5]
-              }else{
-                # positive effect over i.row from an antagonism
-                a = a.param[3]
-              }
-            }else{
-              if(sign.matrix[i.col,i.row] == 1){
-                # negative effect over i.row, from antagonism
-                a = a.param[3]
-              }else if(sign.matrix[i.col,i.row] == 0){
-                # negative effect over i.row, from amensalism
-                a = a.param[2]
-              }else{
-                # negative effect over i.row, from competition
-                a = a.param[1]
-              }
-            }# if-else
+            int.type <- sign.matrix[i.row,i.col]
             
-            impact.matrix[i.row,i.col] <- DGC::InteractionFrequency(n1 = abundance.data[i.row], 
-                                                                    n2 = abundance.data[i.col],
-                                                                    a = a,
-                                                                    x0 = x0,
-                                                                    threshold = threshold) * DGC::InteractionStrength(n1 = abundance.data[i.row],
-                                                                                                                      n2 = abundance.data[i.col],
-                                                                                                                      sign.matrix = sign.matrix, 
-                                                                                                                      sp1 = i.row, 
-                                                                                                                      sp2 = i.col, 
-                                                                                                                      scale.factor = scale.factor)
-          }# if interaction != 0
-        }# if != 0
-      }# for i.col
-    }# for i.row
-    
-    }else{ # community matrix coefs.
-    
+            if(int.type != 0){
+              
+              if(int.type == 1){
+                if(sign.matrix[i.col,i.row] == 1){
+                  # positive effect over i.row from a mutualism
+                  a = a.param[4]
+                }else if(sign.matrix[i.col,i.row] == 0){
+                  # positive effectr over i.row from a commensalism
+                  a = a.param[5]
+                }else{
+                  # positive effect over i.row from an antagonism
+                  a = a.param[3]
+                }
+              }else{
+                if(sign.matrix[i.col,i.row] == 1){
+                  # negative effect over i.row, from antagonism
+                  a = a.param[3]
+                }else if(sign.matrix[i.col,i.row] == 0){
+                  # negative effect over i.row, from amensalism
+                  a = a.param[2]
+                }else{
+                  # negative effect over i.row, from competition
+                  a = a.param[1]
+                }
+              }# if-else
+              
+              impact.matrix[i.row,i.col] <- DGC::InteractionFrequency(n1 = abundance.data[i.row], 
+                                                                      n2 = abundance.data[i.col],
+                                                                      a = a,
+                                                                      x0 = x0,
+                                                                      threshold = threshold) * DGC::InteractionStrength(n1 = abundance.data[i.row],
+                                                                                                                        n2 = abundance.data[i.col],
+                                                                                                                        sign.matrix = sign.matrix, 
+                                                                                                                        sp1 = i.row, 
+                                                                                                                        sp2 = i.col, 
+                                                                                                                        scale.factor = scale.factor)
+            }# if interaction != 0
+          }# if != 0
+        }# for i.col
+      }# for i.row
+    }# if metric
+    if(metric == "community" | metric == "both"){ # community matrix coefs.
+      
       if(is.null(my.model)){
         stop("ImpactMatrix: provide an appropriate dynamic model for calculating community matrix")
       }
       
-    # for this, I need to run the model and get the jacobian/community matrix
-    dynamics <- ode(y = abundance.data, times = c(0:1) ,func = mymodel, parms = param.list, method = "rk4")
-    dynamics[is.na(dynamics)] <- 0
-    community.matrix <- jacobian.full(y = dynamics[1,!dimnames(dynamics)[[2]] %in% c("time")],func = mymodel,parms = param.list)
-    community.matrix[is.na(community.matrix)] <- 0
-    
-    # I am not concerned with intraspecific terms FOR NOW
-    diag(community.matrix) <- 0
-    
-    }# if-else metric
+      # for this, I need to run the model and get the jacobian/community matrix
+      dynamics <- ode(y = abundance.data, times = c(0:1) ,func = mymodel, parms = param.list, method = "rk4")
+      dynamics[is.na(dynamics)] <- 0
+      community.matrix <- jacobian.full(y = dynamics[1,!dimnames(dynamics)[[2]] %in% c("time")],func = mymodel,parms = param.list)
+      community.matrix[is.na(community.matrix)] <- 0
+      
+      # I am not concerned with intraspecific terms FOR NOW
+      diag(community.matrix) <- 0
+      
+    }# if metric
     
     # prepare the output, if it's a dataframe
     
@@ -136,7 +132,7 @@ ImpactMatrix <- function(abundance.data,
                                   community.matrix.value = numeric(num.interactions), stringsAsFactors = F)
       }# if-else metric
       
-
+      
       # auxiliary
       int.count <- 0
       
