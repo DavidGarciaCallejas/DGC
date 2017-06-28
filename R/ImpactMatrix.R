@@ -23,13 +23,14 @@ ImpactMatrix <- function(abundance.data,
                          x0 = 1,
                          threshold = 1e-03,
                          scale.factor = c(0.1,0.1,0.5,0.1,0.1),
+                         metric = "impact",
                          return.type = "dataframe", my.model = NULL, param.list = NULL){
   
   # the function can return impact coefficients, i.e IF(i,j)*IS(i,j) or the coefficients of the community matrix
   # for now, it returns both types
   # it can return them in matrix form or in dataframe form
   
-  # if(impact.type == "net impact"){
+  if(metric == "impact" | metric == "both"){
   
   # check if abundances > 0
   if(sum(abundance.data)>0 & !(is.null(nrow(sign.matrix)) | is.null(ncol(sign.matrix)))){ 
@@ -84,7 +85,7 @@ ImpactMatrix <- function(abundance.data,
       }# for i.col
     }# for i.row
     
-    # }else{ # community matrix coefs.
+    }else{ # community matrix coefs.
     
     # for this, I need to run the model and get the jacobian/community matrix
     dynamics <- ode(y = abundance.data, times = c(0:1) ,func = mymodel, parms = param.list, method = "rk4")
@@ -94,7 +95,8 @@ ImpactMatrix <- function(abundance.data,
     
     # I am not concerned with intraspecific terms FOR NOW
     diag(community.matrix) <- 0
-    # }
+    
+    }# if-else metric
     
     # prepare the output, if it's a dataframe
     
@@ -110,11 +112,25 @@ ImpactMatrix <- function(abundance.data,
       
       num.interactions <- num.competition*2 + num.amensalism + num.antagonism*2 + num.mutualism*2 + num.commensalism
       
-      impact.data <- data.frame(interaction.type = character(num.interactions),
-                                affected.sp = numeric(num.interactions),
-                                coupled.sp = numeric(num.interactions),
-                                impact.matrix.value = numeric(num.interactions), 
-                                community.matrix.value = numeric(num.interactions), stringsAsFactors = F)
+      if(metric == "impact"){
+        impact.data <- data.frame(interaction.type = character(num.interactions),
+                                  affected.sp = numeric(num.interactions),
+                                  coupled.sp = numeric(num.interactions),
+                                  impact.matrix.value = numeric(num.interactions), stringsAsFactors = F)      
+      }else if(metric == "both"){
+        impact.data <- data.frame(interaction.type = character(num.interactions),
+                                  affected.sp = numeric(num.interactions),
+                                  coupled.sp = numeric(num.interactions),
+                                  impact.matrix.value = numeric(num.interactions), 
+                                  community.matrix.value = numeric(num.interactions), stringsAsFactors = F)
+      }else{
+        impact.data <- data.frame(interaction.type = character(num.interactions),
+                                  affected.sp = numeric(num.interactions),
+                                  coupled.sp = numeric(num.interactions), 
+                                  community.matrix.value = numeric(num.interactions), stringsAsFactors = F)
+      }# if-else metric
+      
+
       # auxiliary
       int.count <- 0
       
@@ -152,18 +168,30 @@ ImpactMatrix <- function(abundance.data,
             impact.data$interaction.type[int.count] <- current.interaction
             impact.data$affected.sp[int.count] <- affected.sp
             impact.data$coupled.sp[int.count] <- coupled.sp
-            impact.data$impact.matrix.value[int.count] <- impact.matrix[i.row,i.col]
-            impact.data$community.matrix.value[int.count] <- community.matrix[i.row,i.col]
+            
+            if(metric == "impact" | metric == "both"){
+              impact.data$impact.matrix.value[int.count] <- impact.matrix[i.row,i.col]
+              if(metric == "both"){
+                impact.data$community.matrix.value[int.count] <- community.matrix[i.row,i.col]
+              }
+            }else{
+              impact.data$community.matrix.value[int.count] <- community.matrix[i.row,i.col]
+            }# if-else metric
             
           }# if != 0
-          
         }# for i.col
       }# for i.row
       
       return(impact.data)
       
     }else{
-      return(list(impact.matrix = impact.matrix, community.matrix = community.matrix))
+      if(metric == "impact"){
+        impact.matrix
+      }else if(metric == "both"){
+        return(list(impact.matrix = impact.matrix, community.matrix = community.matrix))
+      }else{
+        community.matrix
+      }
     }# if-else return.type != matrix
     
   }else{# if-else abundances > 0 and num.sp>1
