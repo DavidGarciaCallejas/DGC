@@ -214,7 +214,7 @@ theme_Publication <- function(base_size=12, base_family="helvetica") {
             legend.spacing = unit(0.1, "cm"),
             # legend.title = element_text(face="italic"),
             plot.margin=grid::unit(c(2,2,2,2),"mm"),
-            # strip.background=element_rect(colour="#f0f0f0",fill="white"),
+            strip.background=element_rect(colour="grey50",fill="#f0f0f0"),
             strip.text = element_text(),
             panel.border = element_rect(colour = "grey50", fill=NA, size=0.5)
     ))
