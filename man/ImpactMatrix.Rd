@@ -6,7 +6,8 @@
 \usage{
 ImpactMatrix(abundance.data, sign.matrix, a.param = c(0.01, 0.01, 0.001, 0.01,
   0.01), x0 = 1, threshold = 0.001, scale.factor = c(0.1, 0.1, 0.5, 0.1,
-  0.1), return.type = "dataframe", my.model = NULL, param.list = NULL)
+  0.1), metric = "impact", return.type = "dataframe", my.model = NULL,
+  param.list = NULL)
 }
 \arguments{
 \item{abundance.data}{abundances vector}
@@ -24,6 +25,9 @@ in the following order: competition, amensalism, antagonism, mutualism, commensa
 e.g. a scaling of 1 indicates that the maximum effect
 of one sp. over another is of the same order of magnitude
 than the population growth rate. Same order as a.param}
+
+\item{metric}{which metric is returned? either "impact" (the net impact), 
+"community" (jacobian/community matrix) or "both"}
 
 \item{return.type}{either matrix or dataframe}
 
