@@ -47,5 +47,5 @@ PairwiseCorrelation <- function(interaction.matrix){
   mean.values <- mean(interaction.matrix[row(interaction.matrix) != col(interaction.matrix)])
   variance.value <- var(interaction.matrix[row(interaction.matrix) != col(interaction.matrix)])
   
-  (mean.product * mean.values^2)/variance.value
+  (mean.product - mean.values^2)/variance.value
 }
