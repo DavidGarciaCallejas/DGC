@@ -83,10 +83,11 @@ GenerateProbNumbers <- function(times,
     }else if(dist == "uniform"){
       choice_vec <- runif(times)
     }else if(dist == "gambin"){
-      expected <- gambin::gambin_exp(alpha = gambin.alpha, maxoctave = gambin.maxoctave, total_species = times)
+      # expected <- gambin::gambin_exp(alpha = gambin.alpha, maxoctave = gambin.maxoctave, total_species = times)
+      # expected <- round(expected)
       
-      expected <- round(expected)
-      # num.sp <- sum(expected)
+      # the behaviour of gambin_exp has changed. Use dgambin:
+      expected <- round(gambin::dgambin(0:gambin.maxoctave,alpha = 2,maxoctave = 8) * times)
       
       if(sum(expected) != times){
         difference <- abs(times - sum(expected))
